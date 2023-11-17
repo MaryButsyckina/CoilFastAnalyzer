@@ -25,3 +25,9 @@ class AnglePreparation:
             if i in extremums:
                 k += 1
         return self.angle
+
+    def run(self):
+        self.transform_to_degree()
+        self.find_extremum()
+        self.first_period()
+        return self.angle

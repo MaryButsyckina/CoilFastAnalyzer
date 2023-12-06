@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import json
 
 
 class File(ABC):
@@ -35,8 +36,13 @@ class TxtFile(File):
 
 
 class Json:
-    def __init__(self):
-        pass
+    # def __init__(self, path, mode):
+    #     self.path = path
+    #     self.mode = mode
+    @staticmethod
+    def open(path, mode):
+        with open(path, mode) as file:
+            return json.loads(str(file.read()))
 
 
 class XmlFile(File):
@@ -85,17 +91,24 @@ class DataFile(File):
 
 
 class ConfigFile(File):
-    def __init__(self, path, mode):
+    def __init__(self, path="config.cfg", mode='r'):
         super(ConfigFile, self).__init__(path, mode)
+        self.result = {}
 
     def __open__(self):
-        pass
+        obj = Json.open(self.path, self.mode)
+        for key in obj.keys():
+            self.result[key] = {}
+            for element in obj[key].keys():
+                if obj[key][element]["Active"]:
+                    self.result[key] = obj[key][element]
+        return self.result
 
     def __read__(self):
         pass
 
     def open(self):
-        pass
+        return self.__open__()
 
 
 class CoilConfigFile(File):

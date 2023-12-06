@@ -15,7 +15,7 @@ class Coil:
         self.is_comp = is_compensation
         self.comp_coef = comp_coef
 
-    def run(self):
+    def calc_gs(self):
         for harm in range(1, 16):
             if self.is_comp:
                 square = self.comp_square(harm)
